@@ -1,7 +1,14 @@
 {
-    "theme": "blue",
+    "theme": "green",
     "themeMode": "dark",
     "windowSize": {
-        "main": {"x": 400, "y": 150},
-        "settings": {"x": 400, "y": 150}}
+        "main": {
+            "x": 400,
+            "y": 150
+        },
+        "settings": {
+            "x": 400,
+            "y": 200
+        }
+    }
 }
