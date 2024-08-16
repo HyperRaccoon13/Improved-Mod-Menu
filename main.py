@@ -4,10 +4,12 @@ import customtkinter as ctk
 from loaders import ConfigManager
 from loaders import AssetManager
 
-def ExecutableArguments():
+def RunArguments():
     parser = argparse.ArgumentParser(description='Launch the HyperModMenu application.')
     parser.add_argument('configPath', type=str, help='Path to the configuration file')
     return parser.parse_args()
+
+configPath = ""
 
 
 class SettingsWindow(ctk.CTkToplevel):
@@ -66,8 +68,8 @@ class App(ctk.CTk):
         settingWindow.grab_set()
 
 if __name__ == "__main__":
-    exeArgs = ExecutableArguments()
-    configManager = ConfigManager(exeArgs.configPath)
+    runargs = RunArguments()
+    configManager = ConfigManager(runargs.configPath)
     assetManager = AssetManager(configManager.GetConfigValues("assetsPath"))
     mainModMenu = App()
     mainModMenu.mainloop()
