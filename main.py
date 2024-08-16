@@ -1,7 +1,7 @@
-
+#!python
 import customtkinter as ctk
-from loaders import ConfigLoader
-from loaders import AssetLoader
+from loaders import ConfigManager
+from loaders import AssetManager
 
 assetPath = "assets"
 configPath = "config.json"
@@ -11,14 +11,16 @@ class SettingsWindow(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.title("Settings")
-        configLoader.ApplyConfig(self, windowType="settings")
+        configManager.ApplyConfig(self, windowType="settings")
 
 
         def ThemeModeOptionMenuCallback(value):
-            configLoader.UpdateConfig("themeMode", value)
+            configManager.UpdateConfig("themeMode", value)
+            configManager.ApplyConfig(self)
 
         def ThemeOptionMenuCallback(value):
-            configLoader.UpdateConfig("theme", value)
+            configManager.UpdateConfig("theme", value)
+
 
         def SettingsMenuRefreshCallback():
             pass
@@ -28,11 +30,11 @@ class SettingsWindow(ctk.CTkToplevel):
 
         self.themeModeOptionMenu = ctk.CTkOptionMenu(settingsMenuFrame, values=["dark", "light", "system"], command=ThemeModeOptionMenuCallback)
         self.themeModeOptionMenu.pack(pady=(0, 10), padx=10)
-        self.themeModeOptionMenu.set(configLoader.GetConfigValues("themeMode"))
+        self.themeModeOptionMenu.set(configManager.GetConfigValues("themeMode"))
 
         self.themeOptionMenu = ctk.CTkOptionMenu(settingsMenuFrame, values=["blue", "dark-blue", "green"], command=ThemeOptionMenuCallback)
         self.themeOptionMenu.pack(pady=(5, 5), padx=10)
-        self.themeOptionMenu.set(configLoader.GetConfigValues("theme"))
+        self.themeOptionMenu.set(configManager.GetConfigValues("theme"))
 
         
         self.settingsMenuRefreshButton = ctk.CTkButton(settingsMenuFrame, text="Refresh", command=SettingsMenuRefreshCallback)
@@ -44,10 +46,10 @@ class App(ctk.CTk):
         super().__init__()
         self.title("HyperModMenu")
 
-        configLoader.ApplyConfig(self, windowType="main")
+        configManager.ApplyConfig(self, windowType="main")
 
-        settingButtonIcon = ctk.CTkImage(light_image=assetLoader.GetAsset("gears-solid"),
-                                         dark_image=assetLoader.GetAsset("gears-solid"),
+        settingButtonIcon = ctk.CTkImage(light_image=assetManager.GetAsset("gears-solid"),
+                                         dark_image=assetManager.GetAsset("gears-solid"),
                                          size=(40, 30))
         
         self.settings_button = ctk.CTkButton(self, image=settingButtonIcon, text="",
@@ -61,8 +63,8 @@ class App(ctk.CTk):
         settingWindow.grab_set()
 
 if __name__ == "__main__":
-    configLoader = ConfigLoader(configPath)
-    assetLoader = AssetLoader(assetPath)
+    configManager = ConfigManager(configPath)
+    assetManager = AssetManager(configManager.GetConfigValues("assetsPath"))
     mainModMenu = App()
     mainModMenu.mainloop()
 

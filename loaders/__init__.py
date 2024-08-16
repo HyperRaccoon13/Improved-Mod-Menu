@@ -1,2 +1,2 @@
-from .ConfigLoader import ConfigLoader
-from .AssetLoader import AssetLoader
+from .ConfigManager import ConfigManager
+from .AssetManager import AssetManager

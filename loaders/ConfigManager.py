@@ -1,7 +1,7 @@
 import json
 import customtkinter as ctk
 
-class ConfigLoader:
+class ConfigManager:
     def __init__(self, configFile):
         self.configFile = configFile
         self.configData = self._LoadConfig()

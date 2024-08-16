@@ -1,7 +1,7 @@
 from PIL import Image
 import os
 
-class AssetLoader():
+class AssetManager():
     def __init__(self, assetDirectory):
         self.assetDirectory = assetDirectory
         self.assetDictionary = self._createAssetDict()

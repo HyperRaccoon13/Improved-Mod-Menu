@@ -1,6 +1,8 @@
 {
-    "theme": "green",
-    "themeMode": "dark",
+    "theme": "blue",
+    "themeMode": "light",
+    "themePath": "themes",
+    "assetsPath": "assets",
     "windowSize": {
         "main": {
             "x": 400,
