@@ -2,15 +2,9 @@
     "theme": "blue",
     "themeMode": "dark",
     "themePath": "themes",
-    "assetsPath": "C:\\Users\\darac\\Documents\\GitHub\\Improved Mod Menu\\Improved-Mod-Menu\\assets",
+    "assetsPath": "assets",
     "windowSize": {
-        "main": {
-            "x": 400,
-            "y": 150
-        },
-        "settings": {
-            "x": 400,
-            "y": 200
-        }
+        "main": "200x150",
+        "settings": "400x200"
     }
 }
