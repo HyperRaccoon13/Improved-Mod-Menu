@@ -1,8 +1,8 @@
 #!python
 import argparse
 import customtkinter as ctk
-from loaders import ConfigManager
-from loaders import AssetManager
+from managers import ConfigManager
+from managers import AssetManager
 
 def RunArguments():
     parser = argparse.ArgumentParser(description='Launch the HyperModMenu application.')
@@ -11,7 +11,7 @@ def RunArguments():
 
 configPath = ""
 
-
+# /-----------------[ Setting Window ]-----------------/#
 class SettingsWindow(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -25,27 +25,24 @@ class SettingsWindow(ctk.CTkToplevel):
 
         def ThemeOptionMenuCallback(value):
             configManager.UpdateConfig("theme", value)
+            configManager.ApplyConfig(self)
 
+        settingsMenuMasterFrame = ctk.CTkFrame(self)
+        settingsMenuMasterFrame.pack(expand=True, fill='both')
 
-        def SettingsMenuRefreshCallback():
-            pass
-
-        settingsMenuFrame = ctk.CTkFrame(self)
+        settingsMenuFrame = ctk.CTkFrame(settingsMenuMasterFrame)
         settingsMenuFrame.pack(side="left", anchor="n", padx=20, pady=20)
 
         self.themeModeOptionMenu = ctk.CTkOptionMenu(settingsMenuFrame, values=["dark", "light", "system"], command=ThemeModeOptionMenuCallback)
         self.themeModeOptionMenu.pack(pady=(0, 10), padx=10)
         self.themeModeOptionMenu.set(configManager.GetConfigValues("themeMode"))
 
-        self.themeOptionMenu = ctk.CTkOptionMenu(settingsMenuFrame, values=["blue", "dark-blue", "green"], command=ThemeOptionMenuCallback)
+        self.themeOptionMenu = ctk.CTkOptionMenu(settingsMenuFrame, values=configManager.GetAvailableThemes(configManager.GetConfigValues("themePath")), command=ThemeOptionMenuCallback)
         self.themeOptionMenu.pack(pady=(5, 5), padx=10)
         self.themeOptionMenu.set(configManager.GetConfigValues("theme"))
 
-        
-        self.settingsMenuRefreshButton = ctk.CTkButton(settingsMenuFrame, text="Refresh", command=SettingsMenuRefreshCallback)
-        self.settingsMenuRefreshButton.pack(pady=(10, 0), padx=10)
 
-
+# /-----------------[ Main Window ]-----------------/#
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -53,11 +50,15 @@ class App(ctk.CTk):
 
         configManager.ApplyConfig(self, windowType="main")
 
+        mainMenuMasterFrame = ctk.CTkFrame(self)
+        mainMenuMasterFrame.pack(expand=True, fill='both')
+
+
         settingButtonIcon = ctk.CTkImage(light_image=assetManager.GetAsset("gears-solid"),
                                          dark_image=assetManager.GetAsset("gears-solid"),
                                          size=(40, 30))
         
-        self.settings_button = ctk.CTkButton(self, image=settingButtonIcon, text="",
+        self.settings_button = ctk.CTkButton(mainMenuMasterFrame, image=settingButtonIcon, text="",
                                              command=self.OpenSettingPannel,
                                              width=0, height=0, fg_color="transparent")
         self.settings_button.pack(pady=20)
@@ -71,6 +72,6 @@ if __name__ == "__main__":
     runargs = RunArguments()
     configManager = ConfigManager(runargs.configPath)
     assetManager = AssetManager(configManager.GetConfigValues("assetsPath"))
+    
     mainModMenu = App()
     mainModMenu.mainloop()
-

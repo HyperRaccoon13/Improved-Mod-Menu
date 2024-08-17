@@ -6,7 +6,7 @@ class AssetManager():
         self.assetDirectory = assetDirectory
         self.assetDictionary = self._createAssetDict()
         self.loadedAssets = {}
-        self.loadAssets()
+        self.LoadAssets()
 
     def _createAssetDict(self):
         assetDictionary = {}
@@ -18,7 +18,7 @@ class AssetManager():
                 assetDictionary[assetName] = filePath
         return assetDictionary
     
-    def loadAssets(self):
+    def LoadAssets(self):
         for name, path in self.assetDictionary.items():
             try:
                 if not os.path.exists(path):
